@@ -1,0 +1,6 @@
+{
+  "scale": [1.75, 1.75, 1.0],
+  "position": [-0.04, 0.05, 0.0],
+  "rotation": [0.0, 0.0, 10.5],
+  "relocate_with_chestplate": true
+}

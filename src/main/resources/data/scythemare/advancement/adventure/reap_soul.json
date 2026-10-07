@@ -1,0 +1,28 @@
+{
+  "parent": "scythemare:adventure/obtain_netherite_scythe",
+  "display": {
+    "icon": {
+      "id": "scythemare:netherite_scythe",
+      "components": {
+        "scythemare:skin": "scythemare:draconic"
+      }
+    },
+    "title": {
+      "translate": "advancement.scythemare.reap_soul.title"
+    },
+    "description": {
+      "translate": "advancement.scythemare.reap_soul.desc"
+    },
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "reap": {
+      "trigger": "soul_reap"
+    }
+  },
+  "rewards": {
+    "experience": 4
+  },
+  "sends_telemetry_event": true
+}

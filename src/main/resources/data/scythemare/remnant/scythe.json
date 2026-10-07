@@ -1,0 +1,19 @@
+{
+  "appends": {
+    "perpetuity:copper_remnant": [
+      "scythemare:copper_scythe"
+    ],
+    "perpetuity:iron_remnant": [
+      "scythemare:iron_scythe"
+    ],
+    "perpetuity:gold_remnant": [
+      "scythemare:golden_scythe"
+    ],
+    "perpetuity:diamond_remnant": [
+      "scythemare:diamond_scythe"
+    ],
+    "perpetuity:netherite_remnant": [
+      "scythemare:netherite_scythe"
+    ]
+  }
+}

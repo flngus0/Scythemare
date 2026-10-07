@@ -1,0 +1,42 @@
+{
+  "parent": "scythemare:item/template_scythe_in_hand",
+  "textures": {
+    "layer0": "scythemare:item/scythe_skin/scythe_in_hand"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        -28,
+        -90,
+        0
+      ],
+      "translation": [
+        0,
+        3.0,
+        1.5
+      ],
+      "scale": [
+        1.75,
+        1.75,
+        1
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        -28,
+        90,
+        0
+      ],
+      "translation": [
+        0,
+        3.0,
+        1.5
+      ],
+      "scale": [
+        1.75,
+        1.75,
+        1
+      ]
+    }
+  }
+}

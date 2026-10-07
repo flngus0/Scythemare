@@ -1,0 +1,30 @@
+{
+  "item.scythe.sweep": {
+    "sounds": [
+      {
+        "name": "scythemare:item/scythe/sweep1",
+        "volume": 1
+      },
+      {
+        "name": "scythemare:item/scythe/sweep2",
+        "volume": 1
+      },
+      {
+        "name": "scythemare:item/scythe/sweep3",
+        "volume": 1
+      },
+      {
+        "name": "scythemare:item/scythe/sweep4",
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.entity.player.attack.sweep"
+  },
+  "entity.soul_spirit.disappear": {
+    "sounds": [
+      "mob/endermen/portal",
+      "mob/endermen/portal2"
+    ],
+    "subtitle": "subtitles.entity.soul_spirit.disappear"
+  }
+}

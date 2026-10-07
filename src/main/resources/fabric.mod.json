@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "scythemare",
+	"version": "${version}",
+	"name": "Scythemare",
+	"description": "Funny scythe mod",
+	"authors": [
+		"flingus"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/scythemare/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"flingus.scythemare.Scythemare"
+		],
+        "client": [
+          "flingus.scythemare.client.ScythemareClient"
+        ],
+		"fabric-datagen": [
+          "flingus.scythemare.client.datagen.ScythemareDataGenerator"
+		]
+	},
+	"mixins": [
+		"scythemare.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*",
+        "strawberrylib": "*"
+	}
+}

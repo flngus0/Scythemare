@@ -1,0 +1,6 @@
+{
+  "parent": "scythemare:item/template_scythe",
+  "textures": {
+    "layer0": "scythemare:item/scythe_skin/onslaught"
+  }
+}

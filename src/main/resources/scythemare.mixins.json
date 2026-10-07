@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "flingus.scythemare.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PiglinEntityMixin",
+    "PlayerMixin"
+  ],
+  "client": [
+    "client.ItemModelManagerMixin",
+    "client.enchancement.StoredEnchantmentsTooltipComponentMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+	}
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "scythemare:netherite_scythe",
+  "addition": "minecraft:porkchop",
+  "template": "scythemare:scythe_skin_smithing_template",
+  "result": {
+    "id": "scythemare:netherite_scythe",
+    "components": {
+      "scythemare:skin": "scythemare:hotdog"
+    }
+  }
+}

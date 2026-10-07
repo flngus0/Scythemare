@@ -1,0 +1,7 @@
+{
+  "material": [
+    "minecraft:player_head",
+    "minecraft:zombie_head"
+  ],
+  "name": "scythemare:capillary"
+}

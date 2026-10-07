@@ -1,0 +1,31 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.scythemare.reinforcing"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "enchanted": "attacker",
+        "affected": "victim",
+        "effect": {
+          "type": "scythemare:reinforce"
+        }
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 55,
+    "per_level_above_first": 20
+  },
+  "max_level": 2,
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 20
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#scythemare:scythes",
+  "weight": 5
+}

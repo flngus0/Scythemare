@@ -1,0 +1,84 @@
+{
+  "parent": "scythemare:adventure/change_scythe_skin",
+  "display": {
+    "icon": {
+      "id": "scythemare:netherite_scythe",
+      "components": {
+        "scythemare:skin": "scythemare:amethyst"
+      }
+    },
+    "title": {
+      "translate": "advancement.scythemare.apply_rare_skins.title"
+    },
+    "description": {
+      "translate": "advancement.scythemare.apply_rare_skins.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "applied_amethyst": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/amethyst_scythe"
+      }
+    },
+    "applied_capillary": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/capillary_scythe"
+      }
+    },
+    "applied_capillary_alt": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/capillary_scythe_from_zombie_head"
+      }
+    },
+    "applied_cleaved": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/cleaved_scythe"
+      }
+    },
+    "applied_crystalline": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/crystalline_scythe"
+      }
+    },
+    "applied_draconic": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/draconic_scythe"
+      }
+    },
+    "applied_echo": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/echo_scythe"
+      }
+    },
+    "applied_esoteric": {
+      "trigger": "minecraft:recipe_crafted",
+      "conditions": {
+        "recipe_id": "scythemare:scythe_skin/esoteric_scythe"
+      }
+    }
+  },
+  "requirements": [
+    ["applied_amethyst"],
+    ["applied_capillary", "applied_capillary_alt"],
+    ["applied_cleaved"],
+    ["applied_crystalline"],
+    ["applied_draconic"],
+    ["applied_echo"],
+    ["applied_esoteric"]
+  ],
+  "rewards": {
+    "experience": 150
+  },
+  "sends_telemetry_event": true
+}

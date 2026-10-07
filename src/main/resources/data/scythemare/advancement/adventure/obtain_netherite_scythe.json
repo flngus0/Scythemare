@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "netherite_scythe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "scythemare:netherite_scythe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "title": {
+      "translate": "advancement.scythemare.obtain_netherite_scythe.title"
+    },
+    "description": {
+      "translate": "advancement.scythemare.obtain_netherite_scythe.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "scythemare:netherite_scythe"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_scythe"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

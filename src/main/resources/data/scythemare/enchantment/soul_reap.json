@@ -1,0 +1,41 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.scythemare.soul_reap"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "enchanted": "attacker",
+        "affected": "victim",
+        "effect": {
+          "type": "scythemare:soul_reap",
+          "heal": 0.25
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "flags": {
+              "is_baby": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 55,
+    "per_level_above_first": 20
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 20
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#scythemare:scythes",
+  "weight": 5
+}
