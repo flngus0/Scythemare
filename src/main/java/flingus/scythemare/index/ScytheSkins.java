@@ -39,6 +39,10 @@ public class ScytheSkins {
     public static final RegistryKey<ScytheSkin> SCYTHE = of("scythe");
     public static final RegistryKey<ScytheSkin> WAR = of("war");
     public static final RegistryKey<ScytheSkin> SOULSTAINED = of("soulstained");
+    public static final RegistryKey<ScytheSkin> PRECISION = of("precision");
+    public static final RegistryKey<ScytheSkin> FRIGID = of("frigid");
+    public static final RegistryKey<ScytheSkin> ROSETTE = of("rosette");
+    public static final RegistryKey<ScytheSkin> AUREATE = of("aureate");
 
     private static RegistryKey<ScytheSkin> of(String name) {
         return RegistryKey.of(REGISTRY, Scythemare.id(name));
@@ -46,7 +50,7 @@ public class ScytheSkins {
 
     public static void bootstrap(Registerable<ScytheSkin> registry) {
         register(registry, OSCURA, Scythemare.id("oscura"), Ingredient.ofItems(Items.ENDER_EYE));
-        register(registry, ENBY, Scythemare.id("enby"), Ingredient.ofItems(Items.GOLD_INGOT));
+        register(registry, ENBY, Scythemare.id("enby"), Ingredient.ofItems(Items.PURPLE_DYE));
         register(registry, DEVILSKNIFE, Scythemare.id("devilsknife"), Ingredient.ofItems(Items.ENDER_PEARL));
         register(registry, SCYTHEMARE, Scythemare.id("scythemare"), Ingredient.ofItems(Items.WARPED_NYLIUM));
         register(registry, BREAD, Scythemare.id("bread"), Ingredient.ofItems(Items.BREAD));
@@ -71,6 +75,10 @@ public class ScytheSkins {
         register(registry, SCYTHE, Scythemare.id("scythe"), Ingredient.ofItems(ModItems.IRON_SCYTHE));
         register(registry, WAR, Scythemare.id("war"), Ingredient.ofItems(Items.BREEZE_ROD));
         register(registry, SOULSTAINED, Scythemare.id("soulstained"), Ingredient.ofItems(Items.SOUL_SAND));
+        register(registry, PRECISION, Scythemare.id("precision"), Ingredient.ofItems(Items.SPYGLASS));
+        register(registry, FRIGID, Scythemare.id("frigid"), Ingredient.ofItems(Items.PACKED_ICE));
+        register(registry, ROSETTE, Scythemare.id("rosette"), Ingredient.ofItems(Items.ROSE_BUSH));
+        register(registry, AUREATE, Scythemare.id("aureate"), Ingredient.ofItems(Items.GOLD_INGOT));
     }
 
     private static void register(Registerable<ScytheSkin> registry, RegistryKey<ScytheSkin> key, Identifier name, Ingredient material) {

@@ -47,7 +47,6 @@ public record ReinforceEffect() implements EnchantmentEntityEffect {
                     spirit.setOwner(attacker);
 
                     world.spawnEntity(spirit);
-                    Scythemare.LOGGER.info(String.valueOf(spirit.getOwner()));
                 }
             }
         }

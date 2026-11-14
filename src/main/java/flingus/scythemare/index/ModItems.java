@@ -2,7 +2,6 @@ package flingus.scythemare.index;
 
 import flingus.scythemare.Scythemare;
 import flingus.scythemare.item.ScytheItem;
-import flingus.scythemare.item.ScytheSkinSmithingTemplateItem;
 import moriyashiine.strawberrylib.api.module.SLibRegistries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.AttributeModifierSlot;
@@ -28,7 +27,7 @@ public class ModItems {
     public static final Item DIAMOND_SCYTHE = scythe("diamond_scythe", ToolMaterial.DIAMOND, 8.5F, -3.3F, 10, false);
 
     public static final Item NETHERITE_SCYTHE = scythe("netherite_scythe", ToolMaterial.NETHERITE, 9.5F, -3.3F, 15, true);
-    public static final Item SCYTHE_SKIN_SMITHING_TEMPLATE = SLibRegistries.registerItem("scythe_skin_smithing_template", ScytheSkinSmithingTemplateItem::new, new Item.Settings().rarity(Rarity.UNCOMMON));
+    public static final Item SCYTHE_SKIN_SMITHING_TEMPLATE = SLibRegistries.registerItem("scythe_skin_smithing_template", Item::new, new Item.Settings().rarity(Rarity.UNCOMMON));
 
     public static void init() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(fabricItemGroupEntries -> {

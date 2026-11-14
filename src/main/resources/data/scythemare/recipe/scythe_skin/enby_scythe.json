@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing_transform",
   "base": "scythemare:netherite_scythe",
-  "addition": "minecraft:gold_ingot",
+  "addition": "minecraft:purple_dye",
   "template": "scythemare:scythe_skin_smithing_template",
   "result": {
     "id": "scythemare:netherite_scythe",
