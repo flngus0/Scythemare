@@ -43,6 +43,8 @@ public class ScytheSkins {
     public static final RegistryKey<ScytheSkin> FRIGID = of("frigid");
     public static final RegistryKey<ScytheSkin> ROSETTE = of("rosette");
     public static final RegistryKey<ScytheSkin> AUREATE = of("aureate");
+    public static final RegistryKey<ScytheSkin> LUCID = of("lucid");
+    public static final RegistryKey<ScytheSkin> VOID = of("void");
 
     private static RegistryKey<ScytheSkin> of(String name) {
         return RegistryKey.of(REGISTRY, Scythemare.id(name));
@@ -79,6 +81,8 @@ public class ScytheSkins {
         register(registry, FRIGID, Scythemare.id("frigid"), Ingredient.ofItems(Items.PACKED_ICE));
         register(registry, ROSETTE, Scythemare.id("rosette"), Ingredient.ofItems(Items.ROSE_BUSH));
         register(registry, AUREATE, Scythemare.id("aureate"), Ingredient.ofItems(Items.GOLD_INGOT));
+        register(registry, LUCID, Scythemare.id("lucid"), Ingredient.ofItems(Items.AMETHYST_CLUSTER));
+        register(registry, VOID, Scythemare.id("void"), Ingredient.ofItems(Items.OBSIDIAN));
     }
 
     private static void register(Registerable<ScytheSkin> registry, RegistryKey<ScytheSkin> key, Identifier name, Ingredient material) {

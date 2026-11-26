@@ -41,7 +41,6 @@ public class ModItems {
     private static Item scythe(String name, ToolMaterial material, float attackDamage, float attackSpeed, int enchantability, boolean isFireproof) {
         Item.Settings settings = new Item.Settings()
                 .maxCount(1)
-                .hoe(material, attackDamage, attackSpeed)
                 .enchantable(enchantability)
                 .attributeModifiers(AttributeModifiersComponent.builder()
                         .add(EntityAttributes.ATTACK_DAMAGE, new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, attackDamage, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
