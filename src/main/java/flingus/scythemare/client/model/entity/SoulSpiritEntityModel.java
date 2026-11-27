@@ -1,11 +1,13 @@
 package flingus.scythemare.client.model.entity;
 
 import flingus.scythemare.client.render.entity.state.SoulSpiritEntityRenderState;
-import net.minecraft.client.model.*;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.entity.animation.*;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.animation.*;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.util.Mth;
 import org.joml.Vector3fc;
 
 public class SoulSpiritEntityModel extends EntityModel<SoulSpiritEntityRenderState> {
@@ -16,126 +18,126 @@ public class SoulSpiritEntityModel extends EntityModel<SoulSpiritEntityRenderSta
     private final ModelPart Head;
 
     // nabbed from this random 1.16.5 mod lmao https://github.com/StandoByte/Ripples-of-the-Past/blob/1.16.5/src/main/java/com/github/standobyte/jojo/client/render/entity/animnew/Interpolations.java
-    public static final Transformation.Interpolation CUBIC = (dest, delta, keyframes, start, end, scale) -> {
+    public static final AnimationChannel.Interpolation CUBIC = (dest, delta, keyframes, start, end, scale) -> {
         Vector3fc p0Vec = keyframes[Math.max(0, start - 1)].postTarget();
         Vector3fc startVec = keyframes[start].postTarget();
         Vector3fc endVec = keyframes[end].postTarget();
         Vector3fc p3Vec = keyframes[Math.min(keyframes.length - 1, end + 1)].postTarget();
         dest.set(
-                MathHelper.catmullRom(delta, p0Vec.x(), startVec.x(), endVec.x(), p3Vec.x()) * scale,
-                MathHelper.catmullRom(delta, p0Vec.y(), startVec.y(), endVec.y(), p3Vec.y()) * scale,
-                MathHelper.catmullRom(delta, p0Vec.z(), startVec.z(), endVec.z(), p3Vec.z()) * scale);
+                Mth.catmullrom(delta, p0Vec.x(), startVec.x(), endVec.x(), p3Vec.x()) * scale,
+                Mth.catmullrom(delta, p0Vec.y(), startVec.y(), endVec.y(), p3Vec.y()) * scale,
+                Mth.catmullrom(delta, p0Vec.z(), startVec.z(), endVec.z(), p3Vec.z()) * scale);
         return dest;
     };
 
-    public static final AnimationDefinition IDLE = AnimationDefinition.Builder.create(2.0f).looping()
-            .addBoneAnimation("Torso", new Transformation(
-                    Transformation.Targets.ROTATE,
-                        new Keyframe(0.00f, AnimationHelper.createRotationalVector(10.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.25f, AnimationHelper.createRotationalVector(8.0f, 0.0f, 3.5f), CUBIC),
-                    new Keyframe(0.50f, AnimationHelper.createRotationalVector(7.0f, 0.0f, 5.0f), CUBIC),
-                    new Keyframe(0.75f, AnimationHelper.createRotationalVector(8.0f, 0.0f, 3.5f), CUBIC),
-                    new Keyframe(1.00f, AnimationHelper.createRotationalVector(10.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(1.25f, AnimationHelper.createRotationalVector(12.0f, 0.0f, -3.5f), CUBIC),
-                    new Keyframe(1.50f, AnimationHelper.createRotationalVector(13.0f, 0.0f, -5.0f), CUBIC),
-                    new Keyframe(1.75f, AnimationHelper.createRotationalVector(12.0f, 0.0f, -3.5f), CUBIC),
-                    new Keyframe(2.00f, AnimationHelper.createRotationalVector(10.0f, 0.0f, 0.0f), CUBIC)
+    public static final AnimationDefinition IDLE = AnimationDefinition.Builder.withLength(2.0f).looping()
+            .addAnimation("Torso", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                        new Keyframe(0.00f, KeyframeAnimations.degreeVec(10.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.25f, KeyframeAnimations.degreeVec(8.0f, 0.0f, 3.5f), CUBIC),
+                    new Keyframe(0.50f, KeyframeAnimations.degreeVec(7.0f, 0.0f, 5.0f), CUBIC),
+                    new Keyframe(0.75f, KeyframeAnimations.degreeVec(8.0f, 0.0f, 3.5f), CUBIC),
+                    new Keyframe(1.00f, KeyframeAnimations.degreeVec(10.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(1.25f, KeyframeAnimations.degreeVec(12.0f, 0.0f, -3.5f), CUBIC),
+                    new Keyframe(1.50f, KeyframeAnimations.degreeVec(13.0f, 0.0f, -5.0f), CUBIC),
+                    new Keyframe(1.75f, KeyframeAnimations.degreeVec(12.0f, 0.0f, -3.5f), CUBIC),
+                    new Keyframe(2.00f, KeyframeAnimations.degreeVec(10.0f, 0.0f, 0.0f), CUBIC)
             ))
-            .addBoneAnimation("Tail", new Transformation(
-                    Transformation.Targets.ROTATE,
-                    new Keyframe(0.0f, AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.25f, AnimationHelper.createRotationalVector(-7.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.5f, AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.75f, AnimationHelper.createRotationalVector(7.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(1.0f, AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(1.25f, AnimationHelper.createRotationalVector(-7.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(1.5f, AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(1.75f, AnimationHelper.createRotationalVector(7.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(2.0f, AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f), CUBIC)
+            .addAnimation("Tail", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                    new Keyframe(0.0f, KeyframeAnimations.degreeVec(0.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.25f, KeyframeAnimations.degreeVec(-7.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.5f, KeyframeAnimations.degreeVec(0.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.75f, KeyframeAnimations.degreeVec(7.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(1.0f, KeyframeAnimations.degreeVec(0.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(1.25f, KeyframeAnimations.degreeVec(-7.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(1.5f, KeyframeAnimations.degreeVec(0.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(1.75f, KeyframeAnimations.degreeVec(7.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(2.0f, KeyframeAnimations.degreeVec(0.0f, 0.0f, 0.0f), CUBIC)
             ))
-            .addBoneAnimation("RightArm", new Transformation(
-                    Transformation.Targets.ROTATE,
-                    new Keyframe(0.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, 5.73f), CUBIC),
-                    new Keyframe(1.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(2.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, 5.73f), CUBIC)
+            .addAnimation("RightArm", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                    new Keyframe(0.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, 5.73f), CUBIC),
+                    new Keyframe(1.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(2.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, 5.73f), CUBIC)
             ))
-            .addBoneAnimation("LeftArm", new Transformation(
-                    Transformation.Targets.ROTATE,
-                    new Keyframe(0.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, -5.73f), CUBIC),
-                    new Keyframe(1.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(2.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, -5.73f), CUBIC)
+            .addAnimation("LeftArm", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                    new Keyframe(0.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, -5.73f), CUBIC),
+                    new Keyframe(1.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(2.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, -5.73f), CUBIC)
             ))
             .build();
     
-    public static final AnimationDefinition DISAPPEAR = AnimationDefinition.Builder.create(0.375f)
-            .addBoneAnimation("RightArm", new Transformation(
-                    Transformation.Targets.ROTATE,
-                    new Keyframe(0.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.125f, AnimationHelper.createRotationalVector(-48.658f, -13.3179f, -11.4569f), CUBIC),
-                    new Keyframe(0.375f, AnimationHelper.createRotationalVector(-162.4726f, 40.7358f, -13.342f), CUBIC)
+    public static final AnimationDefinition DISAPPEAR = AnimationDefinition.Builder.withLength(0.375f)
+            .addAnimation("RightArm", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                    new Keyframe(0.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.125f, KeyframeAnimations.degreeVec(-48.658f, -13.3179f, -11.4569f), CUBIC),
+                    new Keyframe(0.375f, KeyframeAnimations.degreeVec(-162.4726f, 40.7358f, -13.342f), CUBIC)
             ))
-            .addBoneAnimation("LeftArm", new Transformation(
-                    Transformation.Targets.ROTATE,
-                    new Keyframe(0.0f, AnimationHelper.createRotationalVector(-105.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.125f, AnimationHelper.createRotationalVector(-48.2367f, 15.1889f, 13.1678f), CUBIC),
-                    new Keyframe(0.375f, AnimationHelper.createRotationalVector(-162.4726f, -40.7358f, 13.342f), CUBIC)
+            .addAnimation("LeftArm", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                    new Keyframe(0.0f, KeyframeAnimations.degreeVec(-105.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.125f, KeyframeAnimations.degreeVec(-48.2367f, 15.1889f, 13.1678f), CUBIC),
+                    new Keyframe(0.375f, KeyframeAnimations.degreeVec(-162.4726f, -40.7358f, 13.342f), CUBIC)
             ))
-            .addBoneAnimation("Torso", new Transformation(
-                    Transformation.Targets.ROTATE,
-                    new Keyframe(0.0f, AnimationHelper.createRotationalVector(10.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.125f, AnimationHelper.createRotationalVector(-5.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.25f, AnimationHelper.createRotationalVector(-25.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.375f, AnimationHelper.createRotationalVector(-202.5f, 0.0f, 0.0f), CUBIC)
+            .addAnimation("Torso", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                    new Keyframe(0.0f, KeyframeAnimations.degreeVec(10.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.125f, KeyframeAnimations.degreeVec(-5.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.25f, KeyframeAnimations.degreeVec(-25.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.375f, KeyframeAnimations.degreeVec(-202.5f, 0.0f, 0.0f), CUBIC)
             ))
-            .addBoneAnimation("Head", new Transformation(
-                    Transformation.Targets.ROTATE,
-                    new Keyframe(0.0f, AnimationHelper.createRotationalVector(0.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.125f, AnimationHelper.createRotationalVector(27.5f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.25f, AnimationHelper.createRotationalVector(25.0f, 0.0f, 0.0f), CUBIC),
-                    new Keyframe(0.375f, AnimationHelper.createRotationalVector(-232.5115f, 2.4407f, -0.5414f), CUBIC)
+            .addAnimation("Head", new AnimationChannel(
+                    AnimationChannel.Targets.ROTATION,
+                    new Keyframe(0.0f, KeyframeAnimations.degreeVec(0.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.125f, KeyframeAnimations.degreeVec(27.5f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.25f, KeyframeAnimations.degreeVec(25.0f, 0.0f, 0.0f), CUBIC),
+                    new Keyframe(0.375f, KeyframeAnimations.degreeVec(-232.5115f, 2.4407f, -0.5414f), CUBIC)
             ))
             .build();
 
-    private final Animation idle;
-    private final Animation disappear;
+    private final KeyframeAnimation idle;
+    private final KeyframeAnimation disappear;
 
     public SoulSpiritEntityModel(ModelPart root) {
-        super(root, RenderLayers::entityTranslucentEmissive);
+        super(root, RenderTypes::entityTranslucentEmissive);
         this.Torso = root.getChild("Torso");
         this.Tail = this.Torso.getChild("Tail");
         this.RightArm = this.Torso.getChild("RightArm");
         this.LeftArm = this.Torso.getChild("LeftArm");
         this.Head = root.getChild("Head");
 
-        this.idle = IDLE.createAnimation(root);
-        this.disappear = DISAPPEAR.createAnimation(root);
+        this.idle = IDLE.bake(root);
+        this.disappear = DISAPPEAR.bake(root);
     }
 
-    public static TexturedModelData getTexturedModelData() {
-        ModelData modelData = new ModelData();
-        ModelPartData modelPartData = modelData.getRoot();
+    public static LayerDefinition getTexturedModelData() {
+        MeshDefinition modelData = new MeshDefinition();
+        PartDefinition modelPartData = modelData.getRoot();
 
-        ModelPartData Torso = modelPartData.addChild("Torso", ModelPartBuilder.create().uv(0, 12).cuboid(-3.0F, 0.0F, -2.0F, 6.0F, 7.0F, 4.0F, new Dilation(0.0F)).uv(8, 0).cuboid(-3.0F, 5.0F, -2.0F, 6.0F, 0.0F, 4.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 17.0F, 0.0F));
+        PartDefinition Torso = modelPartData.addOrReplaceChild("Torso", CubeListBuilder.create().texOffs(0, 12).addBox(-3.0F, 0.0F, -2.0F, 6.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).texOffs(8, 0).addBox(-3.0F, 5.0F, -2.0F, 6.0F, 0.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 17.0F, 0.0F));
 
-        ModelPartData Tail = Torso.addChild("Tail", ModelPartBuilder.create().uv(20, 12).cuboid(0.0F, -2.0F, -2.0F, 0.0F, 6.0F, 8.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 4.0F, 3.0F));
+        PartDefinition Tail = Torso.addOrReplaceChild("Tail", CubeListBuilder.create().texOffs(20, 12).addBox(0.0F, -2.0F, -2.0F, 0.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 4.0F, 3.0F));
 
-        ModelPartData RightArm = Torso.addChild("RightArm", ModelPartBuilder.create().uv(0, 23).cuboid(-2.025F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, new Dilation(0.0F)).uv(14, 1).mirrored().cuboid(-2.025F, 5.0F, -1.0F, 2.0F, 0.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.origin(-3.0F, 0.0F, 0.0F));
+        PartDefinition RightArm = Torso.addOrReplaceChild("RightArm", CubeListBuilder.create().texOffs(0, 23).addBox(-2.025F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)).texOffs(14, 1).mirror().addBox(-2.025F, 5.0F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-3.0F, 0.0F, 0.0F));
 
-        ModelPartData LeftArm = Torso.addChild("LeftArm", ModelPartBuilder.create().uv(0, 23).mirrored().cuboid(0.025F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, new Dilation(0.0F)).mirrored(false).uv(14, 1).cuboid(0.025F, 5.0F, -1.0F, 2.0F, 0.0F, 2.0F, new Dilation(0.0F)), ModelTransform.origin(3.0F, 0.0F, 0.0F));
+        PartDefinition LeftArm = Torso.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(0, 23).mirror().addBox(0.025F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false).texOffs(14, 1).addBox(0.025F, 5.0F, -1.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(3.0F, 0.0F, 0.0F));
 
-        ModelPartData Head = modelPartData.addChild("Head", ModelPartBuilder.create().uv(0, 0).cuboid(-3.0F, -6.0F, -3.0F, 6.0F, 6.0F, 6.0F, new Dilation(0.0F)), ModelTransform.origin(0.0F, 17.0F, 0.0F));
+        PartDefinition Head = modelPartData.addOrReplaceChild("Head", CubeListBuilder.create().texOffs(0, 0).addBox(-3.0F, -6.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 17.0F, 0.0F));
 
-        return TexturedModelData.of(modelData, 64, 64);
+        return LayerDefinition.create(modelData, 64, 64);
     }
 
     @Override
-    public void setAngles(SoulSpiritEntityRenderState state) {
-        super.setAngles(state);
+    public void setupAnim(SoulSpiritEntityRenderState state) {
+        super.setupAnim(state);
 
-        this.Head.pitch = (float) Math.toRadians(state.pitch);
-        this.Head.yaw = (float) Math.toRadians(state.relativeHeadYaw);
-        
-        idle.apply(state.idleState, state.age);
-        disappear.apply(state.disappearState, state.age);
+        this.Head.xRot = (float) Math.toRadians(state.xRot);
+        this.Head.yRot = (float) Math.toRadians(state.yRot);
+
+        idle.apply(state.idleState, state.ageInTicks);
+        disappear.apply(state.disappearState, state.ageInTicks);
     }
 }

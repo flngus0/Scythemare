@@ -2,22 +2,22 @@ package flingus.scythemare.index;
 
 import flingus.scythemare.Scythemare;
 import flingus.scythemare.registry.ScytheSkin;
-import net.minecraft.component.ComponentType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 
 public class ModDataComponentTypes {
-    public static final ComponentType<Identifier> SKIN_COMPONENT = Registry.register(
-            Registries.DATA_COMPONENT_TYPE,
+    public static final DataComponentType<Identifier> SKIN_COMPONENT = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE,
             Scythemare.id("skin"),
-            ComponentType.<Identifier>builder().codec(Identifier.CODEC).packetCodec(Identifier.PACKET_CODEC).build()
+            DataComponentType.<Identifier>builder().persistent(Identifier.CODEC).networkSynchronized(Identifier.STREAM_CODEC).build()
     );
 
-    public static ScytheSkin skin(Identifier id, RegistryWrapper.WrapperLookup registries) {
-        return registries.getOrThrow(ScytheSkins.REGISTRY).getOrThrow(RegistryKey.of(ScytheSkins.REGISTRY, id)).value();
+    public static ScytheSkin skin(Identifier id, HolderLookup.Provider registries) {
+        return registries.lookupOrThrow(ScytheSkins.REGISTRY).getOrThrow(ResourceKey.create(ScytheSkins.REGISTRY, id)).value();
     }
 
     public static String getTranslatedSkinName(Identifier id) {

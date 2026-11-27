@@ -1,7 +1,7 @@
 package flingus.scythemare.client.render.entity.state;
 
-import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
-import net.minecraft.entity.AnimationState;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
+import net.minecraft.world.entity.AnimationState;
 
 public class SoulSpiritEntityRenderState extends ArmedEntityRenderState {
     public final AnimationState idleState = new AnimationState();

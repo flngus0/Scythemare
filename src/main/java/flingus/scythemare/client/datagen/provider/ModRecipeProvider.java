@@ -3,52 +3,52 @@ package flingus.scythemare.client.datagen.provider;
 import flingus.scythemare.index.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
-    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
-        return new RecipeGenerator(registries, exporter) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput exporter) {
+        return new RecipeProvider(registries, exporter) {
             @Override
-            public void generate() {
-                createScythe(this, exporter, ModItems.WOODEN_SCYTHE, ItemTags.PLANKS);
-                createScythe(this, exporter, ModItems.STONE_SCYTHE, ItemTags.STONE_TOOL_MATERIALS);
-                createScythe(this, exporter, ModItems.COPPER_SCYTHE, ItemTags.COPPER_TOOL_MATERIALS);
-                createScythe(this, exporter, ModItems.IRON_SCYTHE, ItemTags.IRON_TOOL_MATERIALS);
-                createScythe(this, exporter, ModItems.GOLDEN_SCYTHE, ItemTags.GOLD_TOOL_MATERIALS);
-                createScythe(this, exporter, ModItems.DIAMOND_SCYTHE, ItemTags.DIAMOND_TOOL_MATERIALS);
+            public void buildRecipes() {
+                createScythe(this, output, ModItems.WOODEN_SCYTHE, ItemTags.PLANKS);
+                createScythe(this, output, ModItems.STONE_SCYTHE, ItemTags.STONE_TOOL_MATERIALS);
+                createScythe(this, output, ModItems.COPPER_SCYTHE, ItemTags.COPPER_TOOL_MATERIALS);
+                createScythe(this, output, ModItems.IRON_SCYTHE, ItemTags.IRON_TOOL_MATERIALS);
+                createScythe(this, output, ModItems.GOLDEN_SCYTHE, ItemTags.GOLD_TOOL_MATERIALS);
+                createScythe(this, output, ModItems.DIAMOND_SCYTHE, ItemTags.DIAMOND_TOOL_MATERIALS);
 
-                offerNetheriteUpgradeRecipe(ModItems.DIAMOND_SCYTHE, RecipeCategory.COMBAT, ModItems.NETHERITE_SCYTHE);
+                netheriteSmithing(ModItems.DIAMOND_SCYTHE, RecipeCategory.COMBAT, ModItems.NETHERITE_SCYTHE);
 
-                offerSmithingTemplateCopyingRecipe(ModItems.SCYTHE_SKIN_SMITHING_TEMPLATE, Items.TUFF);
+                copySmithingTemplate(ModItems.SCYTHE_SKIN_SMITHING_TEMPLATE, Items.TUFF);
             }
         };
     }
 
-    public void createScythe(RecipeGenerator generator, RecipeExporter exporter, ItemConvertible output, TagKey<Item> material) {
-        generator.createShaped(RecipeCategory.COMBAT, output)
-                .input('#', material)
-                .input('/', Items.STICK)
+    public void createScythe(RecipeProvider generator, RecipeOutput exporter, ItemLike output, TagKey<Item> material) {
+        generator.shaped(RecipeCategory.COMBAT, output)
+                .define('#', material)
+                .define('/', Items.STICK)
                 .pattern("##/")
                 .pattern("#/#")
                 .pattern(" / ")
-                .criterion("has_material", generator.conditionsFromTag(material))
-                .criterion(RecipeGenerator.hasItem(Items.STICK), generator.conditionsFromItem(Items.STICK))
-                .offerTo(exporter);
+                .unlockedBy("has_material", generator.has(material))
+                .unlockedBy(RecipeProvider.getHasName(Items.STICK), generator.has(Items.STICK))
+                .save(exporter);
     }
 
     @Override

@@ -4,42 +4,39 @@ import flingus.scythemare.index.ModEnchantments;
 import flingus.scythemare.index.ModRegistryKeys;
 import flingus.scythemare.index.ModTags;
 import flingus.scythemare.util.ScythemareUtils;
-import net.minecraft.block.*;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootTables;
-import net.minecraft.registry.entry.LazyRegistryEntryReference;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Property;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.EitherHolder;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 
 public class ScytheItem extends Item {
-    public ScytheItem(Settings settings) {
-        super(settings.component(DataComponentTypes.DAMAGE_TYPE, new LazyRegistryEntryReference<>(ModRegistryKeys.SLICE)));
+    public ScytheItem(Properties settings) {
+        super(settings.component(DataComponents.DAMAGE_TYPE, new EitherHolder<>(ModRegistryKeys.SLICE)));
     }
 
     @Override
-    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
+    public boolean canDestroyBlock(ItemStack stack, BlockState state, Level world, BlockPos pos, LivingEntity user) {
         if (ScythemareUtils.hasEnchantment(ModEnchantments.HARVEST_TOUCH, world, stack)) {
-            if (state.isIn(ModTags.HARVEST_TOUCH_REPLACEABLE)) {
+            if (state.is(ModTags.HARVEST_TOUCH_REPLACEABLE)) {
                 for (Property<?> property : state.getProperties()) {
-                    if (property instanceof IntProperty integerProperty) {
-                        int currentAge = state.get(integerProperty);
-                        int maxAge = integerProperty.getValues().stream().mapToInt(Integer::intValue).max().orElse(currentAge);
+                    if (property instanceof IntegerProperty integerProperty) {
+                        int currentAge = state.getValue(integerProperty);
+                        int maxAge = integerProperty.getPossibleValues().stream().mapToInt(Integer::intValue).max().orElse(currentAge);
 
-                        if (user.isSneaking()) {
-                            return !user.isInCreativeMode();
+                        if (user.isShiftKeyDown()) {
+                            return !user.hasInfiniteMaterials();
                         }
 
                         return currentAge == maxAge;
@@ -48,54 +45,54 @@ public class ScytheItem extends Item {
             }
 
             if (state.getBlock() instanceof CropBlock cropBlock) {
-                if (user.isSneaking()) {
-                    return !user.isInCreativeMode();
+                if (user.isShiftKeyDown()) {
+                    return !user.hasInfiniteMaterials();
                 }
                 else {
-                    return cropBlock.isMature(state);
+                    return cropBlock.isMaxAge(state);
                 }
             }
 
             if (state.getBlock() instanceof SugarCaneBlock) {
-                if (!world.getBlockState(pos.down()).isOf(Blocks.SUGAR_CANE)) {
-                    return user.isSneaking() && !user.isInCreativeMode();
+                if (!world.getBlockState(pos.below()).is(Blocks.SUGAR_CANE)) {
+                    return user.isShiftKeyDown() && !user.hasInfiniteMaterials();
                 }
-                return !user.isInCreativeMode();
+                return !user.hasInfiniteMaterials();
             }
         }
 
-        return !user.isInCreativeMode();
+        return !user.hasInfiniteMaterials();
     }
 
     @Override
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
-        if (!world.isClient() && ScythemareUtils.hasEnchantment(ModEnchantments.HARVEST_TOUCH, world, stack)) {
-            if (state.isIn(ModTags.HARVEST_TOUCH_REPLACEABLE)) {
+    public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity miner) {
+        if (!world.isClientSide() && ScythemareUtils.hasEnchantment(ModEnchantments.HARVEST_TOUCH, world, stack)) {
+            if (state.is(ModTags.HARVEST_TOUCH_REPLACEABLE)) {
                 if (state.getBlock() instanceof SweetBerryBushBlock berryBushBlock) {
-                    if(state.get(SweetBerryBushBlock.AGE) == SweetBerryBushBlock.MAX_AGE) {
-                        Block.dropStack(world, pos, new ItemStack(Items.SWEET_BERRIES, 2 + world.random.nextInt(2)));
+                    if(state.getValue(SweetBerryBushBlock.AGE) == SweetBerryBushBlock.MAX_AGE) {
+                        Block.popResource(world, pos, new ItemStack(Items.SWEET_BERRIES, 2 + world.random.nextInt(2)));
 
-                        world.setBlockState(pos, state.with(SweetBerryBushBlock.AGE, 1), Block.NOTIFY_ALL);
+                        world.setBlock(pos, state.setValue(SweetBerryBushBlock.AGE, 1), Block.UPDATE_ALL);
 
-                        world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS);
+                        world.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS);
 
-                        stack.damage(1, miner, EquipmentSlot.MAINHAND);
+                        stack.hurtAndBreak(1, miner, EquipmentSlot.MAINHAND);
                     }
                     return false;
                 }
                 for (Property<?> property : state.getProperties()) {
-                    if (property instanceof IntProperty integerProperty) {
-                        int currentAge = state.get(integerProperty);
-                        int maxAge = integerProperty.getValues().stream().mapToInt(Integer::intValue).max().orElse(currentAge);
+                    if (property instanceof IntegerProperty integerProperty) {
+                        int currentAge = state.getValue(integerProperty);
+                        int maxAge = integerProperty.getPossibleValues().stream().mapToInt(Integer::intValue).max().orElse(currentAge);
 
                         if (currentAge == maxAge) {
-                            Block.dropStacks(state, world, pos, null, miner, stack);
+                            Block.dropResources(state, world, pos, null, miner, stack);
 
-                            world.setBlockState(pos, state.with(integerProperty, integerProperty.getValues().stream().mapToInt(Integer::intValue).min().orElse(0)), Block.NOTIFY_ALL);
+                            world.setBlock(pos, state.setValue(integerProperty, integerProperty.getPossibleValues().stream().mapToInt(Integer::intValue).min().orElse(0)), Block.UPDATE_ALL);
 
-                            world.playSound(null, pos, state.getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS);
+                            world.playSound(null, pos, state.getSoundType().getPlaceSound(), SoundSource.BLOCKS);
 
-                            stack.damage(1, miner, EquipmentSlot.MAINHAND);
+                            stack.hurtAndBreak(1, miner, EquipmentSlot.MAINHAND);
 
                             return false;
                         }
@@ -104,24 +101,24 @@ public class ScytheItem extends Item {
             }
 
             if (state.getBlock() instanceof CropBlock cropBlock) {
-                if (cropBlock.isMature(state)) {
-                    Block.dropStacks(state, world, pos, null, miner, stack);
+                if (cropBlock.isMaxAge(state)) {
+                    Block.dropResources(state, world, pos, null, miner, stack);
 
-                    world.setBlockState(pos, cropBlock.withAge(0), Block.NOTIFY_ALL);
+                    world.setBlock(pos, cropBlock.getStateForAge(0), Block.UPDATE_ALL);
 
-                    world.playSound(null, pos, cropBlock.getDefaultState().getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS);
+                    world.playSound(null, pos, cropBlock.defaultBlockState().getSoundType().getPlaceSound(), SoundSource.BLOCKS);
 
-                    stack.damage(1, miner, EquipmentSlot.MAINHAND);
+                    stack.hurtAndBreak(1, miner, EquipmentSlot.MAINHAND);
 
                     return false;
                 }
             }
         }
-        return super.postMine(stack, world, state, pos, miner);
+        return super.mineBlock(stack, world, state, pos, miner);
     }
 
     @Override
-    public Text getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         return super.getName(stack);
     }
 }

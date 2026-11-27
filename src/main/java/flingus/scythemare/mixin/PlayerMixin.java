@@ -3,37 +3,37 @@ package flingus.scythemare.mixin;
 import flingus.scythemare.index.ModSounds;
 import flingus.scythemare.index.ModTags;
 import flingus.scythemare.item.ScytheItem;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(PlayerEntity.class)
+@Mixin(Player.class)
 public abstract class PlayerMixin {
     @Shadow
-    protected abstract void playAttackSound(SoundEvent sound);
+    protected abstract void playServerSideSound(SoundEvent sound);
 
-    @Redirect(method = "canUseSweepAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
+    @Redirect(method = "isSweepAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/tags/TagKey;)Z"))
     private boolean scythemare$sweepAttackable(ItemStack stack, TagKey<?> tag) {
-        if (stack.isIn(ModTags.SWEEP_ATTACKABLE)) {
+        if (stack.is(ModTags.SWEEP_ATTACKABLE)) {
             return true;
         }
 
-        return stack.isIn(ItemTags.SWORDS);
+        return stack.is(ItemTags.SWORDS);
     }
 
-    @Redirect(method = "doSweepingAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;playAttackSound(Lnet/minecraft/sound/SoundEvent;)V"))
-    private void scythemare$doSweepingAttack(PlayerEntity player, SoundEvent sound) {
-        if (player.getMainHandStack().getItem() instanceof ScytheItem) {
-            this.playAttackSound(ModSounds.SCYTHE_SWEEP);
+    @Redirect(method = "doSweepAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;playServerSideSound(Lnet/minecraft/sounds/SoundEvent;)V"))
+    private void scythemare$doSweepingAttack(Player player, SoundEvent sound) {
+        if (player.getMainHandItem().getItem() instanceof ScytheItem) {
+            this.playServerSideSound(ModSounds.SCYTHE_SWEEP);
         }
         else {
-            this.playAttackSound(sound);
+            this.playServerSideSound(sound);
         }
     }
 }

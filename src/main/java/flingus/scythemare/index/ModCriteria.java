@@ -1,10 +1,10 @@
 package flingus.scythemare.index;
 
 import flingus.scythemare.advancement.SoulReapCriterion;
-import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.advancements.CriteriaTriggers;
 
 public class ModCriteria {
-    public static final SoulReapCriterion SOUL_REAP = Criteria.register("soul_reap", new SoulReapCriterion());
+    public static final SoulReapCriterion SOUL_REAP = CriteriaTriggers.register("soul_reap", new SoulReapCriterion());
 
     public static void init() {}
 }

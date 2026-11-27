@@ -1,10 +1,10 @@
 package flingus.scythemare.index;
 
 import flingus.scythemare.Scythemare;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
 
 public class ModSounds {
     public static final SoundEvent SCYTHE_SWEEP = registerSound("item.scythe.sweep");
@@ -12,7 +12,7 @@ public class ModSounds {
 
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Scythemare.id(id);
-        return Registry.register(Registries.SOUND_EVENT, identifier, SoundEvent.of(identifier));
+        return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
     }
 
     public static void init() {

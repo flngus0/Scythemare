@@ -1,12 +1,12 @@
 package flingus.scythemare.index;
 
 import flingus.scythemare.Scythemare;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
 
 public interface ModRegistryKeys {
-    RegistryKey<DamageType> SLICE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Scythemare.id("slice"));
+    ResourceKey<DamageType> SLICE = ResourceKey.create(Registries.DAMAGE_TYPE, Scythemare.id("slice"));
 
     static void init(){}
 }

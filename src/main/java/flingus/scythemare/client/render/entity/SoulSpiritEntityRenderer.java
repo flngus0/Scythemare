@@ -5,30 +5,30 @@ import flingus.scythemare.client.index.ModEntityModelLayers;
 import flingus.scythemare.client.model.entity.SoulSpiritEntityModel;
 import flingus.scythemare.client.render.entity.state.SoulSpiritEntityRenderState;
 import flingus.scythemare.entity.SoulSpiritEntity;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
-public class SoulSpiritEntityRenderer extends MobEntityRenderer<SoulSpiritEntity, SoulSpiritEntityRenderState, SoulSpiritEntityModel> {
+public class SoulSpiritEntityRenderer extends MobRenderer<SoulSpiritEntity, SoulSpiritEntityRenderState, SoulSpiritEntityModel> {
     private static final Identifier TEXTURE = Scythemare.id("textures/entity/soul_spirit.png");
 
-    public SoulSpiritEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new SoulSpiritEntityModel(context.getPart(ModEntityModelLayers.SOUL_SPIRIT)), 0.0F);
+    public SoulSpiritEntityRenderer(EntityRendererProvider.Context context) {
+        super(context, new SoulSpiritEntityModel(context.bakeLayer(ModEntityModelLayers.SOUL_SPIRIT)), 0.0F);
     }
 
     @Override
-    public void updateRenderState(SoulSpiritEntity livingEntity, SoulSpiritEntityRenderState livingEntityRenderState, float f) {
-        super.updateRenderState(livingEntity, livingEntityRenderState, f);
+    public void extractRenderState(SoulSpiritEntity livingEntity, SoulSpiritEntityRenderState livingEntityRenderState, float f) {
+        super.extractRenderState(livingEntity, livingEntityRenderState, f);
         livingEntityRenderState.idleState.copyFrom(livingEntity.idleState);
         livingEntityRenderState.disappearState.copyFrom(livingEntity.disappearState);
     }
 
     @Override
-    protected int getBlockLight(SoulSpiritEntity entity, BlockPos pos) {
+    protected int getBlockLightLevel(SoulSpiritEntity entity, BlockPos pos) {
         return 15;
     }
 
@@ -38,12 +38,12 @@ public class SoulSpiritEntityRenderer extends MobEntityRenderer<SoulSpiritEntity
     }
 
     @Override
-    public Identifier getTexture(SoulSpiritEntityRenderState state) {
+    public Identifier getTextureLocation(SoulSpiritEntityRenderState state) {
         return TEXTURE;
     }
 
     @Override
-    protected @Nullable RenderLayer getRenderLayer(SoulSpiritEntityRenderState state, boolean showBody, boolean translucent, boolean showOutline) {
-        return RenderLayers.entityTranslucent(getTexture(state), true);
+    protected @Nullable RenderType getRenderType(SoulSpiritEntityRenderState state, boolean showBody, boolean translucent, boolean showOutline) {
+        return RenderTypes.entityTranslucent(getTextureLocation(state), true);
     }
 }

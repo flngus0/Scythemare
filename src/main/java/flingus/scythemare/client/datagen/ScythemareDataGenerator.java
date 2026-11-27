@@ -6,7 +6,7 @@ import flingus.scythemare.client.datagen.provider.ScytheSkinProvider;
 import flingus.scythemare.index.ScytheSkins;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.minecraft.registry.RegistryBuilder;
+import net.minecraft.core.RegistrySetBuilder;
 
 public class ScythemareDataGenerator implements DataGeneratorEntrypoint {
 	@Override
@@ -19,7 +19,7 @@ public class ScythemareDataGenerator implements DataGeneratorEntrypoint {
 	}
 
     @Override
-    public void buildRegistry(RegistryBuilder registryBuilder) {
-        registryBuilder.addRegistry(ScytheSkins.REGISTRY, ScytheSkins::bootstrap);
+    public void buildRegistry(RegistrySetBuilder registryBuilder) {
+        registryBuilder.add(ScytheSkins.REGISTRY, ScytheSkins::bootstrap);
     }
 }

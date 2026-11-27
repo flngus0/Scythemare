@@ -1,27 +1,27 @@
 package flingus.scythemare.advancement;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.predicate.entity.LootContextPredicate;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.advancements.criterion.ContextAwarePredicate;
+import net.minecraft.advancements.criterion.SimpleCriterionTrigger;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Optional;
 
-public class SoulReapCriterion extends AbstractCriterion<SoulReapCriterion.Conditions> {
-    public void trigger(ServerPlayerEntity player) {
+public class SoulReapCriterion extends SimpleCriterionTrigger<SoulReapCriterion.Conditions> {
+    public void trigger(ServerPlayer player) {
         this.trigger(player, conditions -> true);
     }
 
-    public Codec<SoulReapCriterion.Conditions> getConditionsCodec() {
+    public Codec<SoulReapCriterion.Conditions> codec() {
         return SoulReapCriterion.Conditions.CODEC;
     }
 
-    public record Conditions(Optional<LootContextPredicate> playerPredicate) implements AbstractCriterion.Conditions {
-        public static Codec<SoulReapCriterion.Conditions> CODEC = LootContextPredicate.CODEC.optionalFieldOf("player")
+    public record Conditions(Optional<ContextAwarePredicate> playerPredicate) implements SimpleCriterionTrigger.SimpleInstance {
+        public static Codec<SoulReapCriterion.Conditions> CODEC = ContextAwarePredicate.CODEC.optionalFieldOf("player")
                 .xmap(Conditions::new, Conditions::player).codec();
 
         @Override
-        public Optional<LootContextPredicate> player() {
+        public Optional<ContextAwarePredicate> player() {
             return playerPredicate;
         }
     }

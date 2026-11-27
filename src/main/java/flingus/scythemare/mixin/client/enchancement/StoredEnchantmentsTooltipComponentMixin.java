@@ -3,8 +3,8 @@ package flingus.scythemare.mixin.client.enchancement;
 import flingus.scythemare.Scythemare;
 import flingus.scythemare.index.ModItems;
 import moriyashiine.enchancement.client.gui.tooltip.StoredEnchantmentsTooltipComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -26,6 +26,6 @@ public class StoredEnchantmentsTooltipComponentMixin {
     private static void scythemare$addIcon(CallbackInfo ci) {
         Map<ItemStack, Identifier> map = TEXTURE_MAP;
 
-        map.put(ModItems.IRON_SCYTHE.getDefaultStack(), Scythemare.id("container/slot/scythe"));
+        map.put(ModItems.IRON_SCYTHE.getDefaultInstance(), Scythemare.id("container/slot/scythe"));
     }
 }

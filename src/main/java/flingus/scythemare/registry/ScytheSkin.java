@@ -2,8 +2,8 @@ package flingus.scythemare.registry;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public record ScytheSkin(Identifier name, Ingredient material) {
     public static final Codec<ScytheSkin> CODEC = RecordCodecBuilder.create(instance -> instance.group(
